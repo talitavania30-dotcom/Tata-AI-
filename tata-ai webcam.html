@@ -1,0 +1,1034 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tata AI - Chat Assistant</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #fce7f3 0%, #f3e8ff 50%, #fdf2f8 100%);
+            min-height: 100vh;
+        }
+        
+        .chat-bubble {
+            animation: slideIn 0.4s ease-out;
+        }
+        
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(15px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .pulse-heart {
+            animation: pulseHeart 2s infinite;
+        }
+        
+        @keyframes pulseHeart {
+            0%, 100% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.1);
+            }
+        }
+        
+        .float-animation {
+            animation: float 3s ease-in-out infinite;
+        }
+        
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0px);
+            }
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+        
+        .typing-indicator {
+            animation: typing 1.5s infinite;
+        }
+        
+        @keyframes typing {
+            0%, 60%, 100% {
+                transform: translateY(0);
+            }
+            30% {
+                transform: translateY(-10px);
+            }
+        }
+        
+        .gradient-text {
+            background: linear-gradient(45deg, #ec4899, #f472b6, #f9a8d4);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .glass-effect {
+            background: rgba(255, 255, 255, 0.3);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.4);
+        }
+        
+        .sparkle {
+            animation: sparkle 2s linear infinite;
+        }
+        
+        @keyframes sparkle {
+            0%, 100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+            50% {
+                opacity: 0.5;
+                transform: scale(1.2);
+            }
+        }
+        
+        .webcam-frame {
+            background: linear-gradient(45deg, #f472b6, #ec4899, #be185d);
+            border-radius: 20px;
+            padding: 6px;
+        }
+        
+        .webcam-inner {
+            background: #1f2937;
+            border-radius: 14px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .speaker-wave {
+            animation: wave 1.5s ease-in-out infinite;
+        }
+        
+        @keyframes wave {
+            0%, 100% {
+                transform: scaleY(1);
+            }
+            50% {
+                transform: scaleY(1.8);
+            }
+        }
+        
+        .bounce-cute {
+            animation: bounceCute 2s infinite;
+        }
+        
+        @keyframes bounceCute {
+            0%, 20%, 50%, 80%, 100% {
+                transform: translateY(0);
+            }
+            40% {
+                transform: translateY(-12px);
+            }
+            60% {
+                transform: translateY(-6px);
+            }
+        }
+        
+        .glow-effect {
+            box-shadow: 0 0 20px rgba(236, 72, 153, 0.3);
+        }
+        
+        .rotate-slow {
+            animation: rotateSlow 8s linear infinite;
+        }
+        
+        @keyframes rotateSlow {
+            from {
+                transform: rotate(0deg);
+            }
+            to {
+                transform: rotate(360deg);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container mx-auto px-4 py-6 max-w-7xl">
+        <!-- Header -->
+        <div class="glass-effect rounded-3xl shadow-2xl mb-6 p-8 relative overflow-hidden glow-effect">
+            <div class="absolute top-0 right-0 text-8xl opacity-20 float-animation rotate-slow">🌸</div>
+            <div class="absolute bottom-0 left-0 text-5xl opacity-20 sparkle">✨</div>
+
+            
+            <div class="flex items-center justify-between relative z-10">
+                <div class="flex items-center space-x-6">
+                    <div class="w-20 h-20 bg-gradient-to-r from-pink-400 via-rose-400 to-pink-500 rounded-full flex items-center justify-center shadow-2xl pulse-heart glow-effect">
+                        <span class="text-3xl">🌺</span>
+                    </div>
+                    <div>
+                        <h1 class="text-4xl font-bold gradient-text mb-2">Tata AI Assistant</h1>
+                        <p class="text-pink-600 font-medium text-lg">✨ Asisten AI yang manis dengan fitur super lengkap 💕</p>
+                        <div class="flex items-center space-x-2 mt-2">
+                            <span class="text-sm bg-pink-100 text-pink-700 px-3 py-1 rounded-full">🎥 Webcam</span>
+                            <span class="text-sm bg-rose-100 text-rose-700 px-3 py-1 rounded-full">📧 Email</span>
+                            <span class="text-sm bg-pink-100 text-pink-700 px-3 py-1 rounded-full">🔊 Speaker</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <div class="flex space-x-1">
+                        <div class="w-4 h-4 bg-pink-400 rounded-full pulse-heart"></div>
+                        <div class="w-4 h-4 bg-rose-400 rounded-full pulse-heart" style="animation-delay: 0.2s"></div>
+                        <div class="w-4 h-4 bg-pink-300 rounded-full pulse-heart" style="animation-delay: 0.4s"></div>
+                    </div>
+                    <span class="text-lg text-pink-600 font-bold bg-green-100 px-4 py-2 rounded-full">🟢 Online & Siap!</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            <!-- Left Panel - Controls -->
+            <div class="space-y-6">
+                <!-- Email Section -->
+                <div class="glass-effect rounded-3xl shadow-xl p-6 relative overflow-hidden glow-effect">
+                    <div class="absolute top-3 right-3 text-3xl opacity-30 bounce-cute">💌</div>
+                    <div class="absolute bottom-2 left-2 text-xl opacity-20 sparkle">📮</div>
+                    
+                    <div class="flex items-center space-x-4 mb-6">
+                        <div class="w-14 h-14 bg-gradient-to-r from-pink-300 via-rose-300 to-pink-400 rounded-2xl flex items-center justify-center shadow-lg pulse-heart">
+                            <span class="text-2xl">📧</span>
+                        </div>
+                        <div>
+                            <h3 class="text-xl font-bold text-pink-800">Email Tata</h3>
+                            <p class="text-sm text-pink-600">Hubungkan email cantikmu! 💕</p>
+                        </div>
+                    </div>
+                    
+                    <div class="space-y-4">
+                        <div class="relative">
+                            <input type="email" id="emailInput" placeholder="Masukkan email manis kamu... 💕✨" class="w-full px-5 py-4 bg-white bg-opacity-90 border-2 border-pink-200 rounded-2xl focus:ring-4 focus:ring-pink-300 focus:border-pink-400 outline-none transition-all text-pink-800 placeholder-pink-400 shadow-lg">
+                            <div class="absolute right-4 top-1/2 transform -translate-y-1/2 text-pink-400">
+                                <span class="text-lg">💌</span>
+                            </div>
+                        </div>
+                        <button onclick="connectEmail()" class="w-full bg-gradient-to-r from-pink-400 via-rose-400 to-pink-500 hover:from-pink-500 hover:via-rose-500 hover:to-pink-600 text-white font-bold py-4 rounded-2xl transition-all duration-300 shadow-xl transform hover:scale-105 glow-effect">
+                            💕 Hubungkan Email Sekarang
+                        </button>
+                        <div id="emailStatus" class="text-sm text-center hidden bg-gradient-to-r from-green-100 to-pink-100 p-4 rounded-2xl border-2 border-green-200">
+                            <span class="text-green-700 font-bold">✨ Email berhasil terhubung! 🌸💕</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Webcam Section -->
+                <div class="glass-effect rounded-3xl shadow-xl p-6 relative overflow-hidden glow-effect">
+                    <div class="absolute top-3 right-3 text-3xl opacity-30 float-animation">📹</div>
+                    <div class="absolute bottom-2 left-2 text-xl opacity-20 rotate-slow">🎬</div>
+                    
+                    <div class="flex items-center space-x-4 mb-6">
+                        <div class="w-14 h-14 bg-gradient-to-r from-pink-300 via-rose-300 to-pink-400 rounded-2xl flex items-center justify-center shadow-lg pulse-heart">
+                            <span class="text-2xl">🎥</span>
+                        </div>
+                        <div>
+                            <h3 class="text-xl font-bold text-pink-800">Webcam Cantik</h3>
+                            <p class="text-sm text-pink-600">Lihat wajah manismu! 😊</p>
+                        </div>
+                    </div>
+                    
+                    <div class="webcam-frame mb-4">
+                        <div class="webcam-inner aspect-video flex items-center justify-center">
+                            <div id="webcamPreview" class="text-center">
+                                <div class="text-5xl mb-4 bounce-cute">📷</div>
+                                <p class="text-pink-300 text-lg font-medium">Webcam belum aktif nih! 😊</p>
+                                <p class="text-pink-200 text-sm mt-2">Klik tombol untuk mulai! 🌸</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <button onclick="toggleWebcam()" id="webcamBtn" class="w-full bg-gradient-to-r from-pink-400 via-rose-400 to-pink-500 hover:from-pink-500 hover:via-rose-500 hover:to-pink-600 text-white font-bold py-4 rounded-2xl transition-all duration-300 shadow-xl transform hover:scale-105 glow-effect">
+                        🌸 Aktifkan Webcam Cantik
+                    </button>
+                </div>
+
+                <!-- Speaker Section -->
+                <div class="glass-effect rounded-3xl shadow-xl p-6 relative overflow-hidden glow-effect">
+                    <div class="absolute top-3 right-3 text-3xl opacity-30 sparkle">🔊</div>
+                    <div class="absolute bottom-2 left-2 text-xl opacity-20 bounce-cute">🎵</div>
+                    
+                    <div class="flex items-center space-x-4 mb-6">
+                        <div class="w-14 h-14 bg-gradient-to-r from-pink-300 via-rose-300 to-pink-400 rounded-2xl flex items-center justify-center shadow-lg pulse-heart">
+                            <span class="text-2xl">🎵</span>
+                        </div>
+                        <div>
+                            <h3 class="text-xl font-bold text-pink-800">Speaker Manis</h3>
+                            <p class="text-sm text-pink-600">Kontrol audio dan pengaturan suara 🎶</p>
+                        </div>
+                    </div>
+                    
+                    <div class="flex items-center justify-center space-x-2 mb-6 bg-pink-50 p-4 rounded-2xl">
+                        <div class="w-4 h-10 bg-pink-400 rounded-full speaker-wave" style="animation-delay: 0s"></div>
+                        <div class="w-4 h-16 bg-rose-400 rounded-full speaker-wave" style="animation-delay: 0.1s"></div>
+                        <div class="w-4 h-8 bg-pink-300 rounded-full speaker-wave" style="animation-delay: 0.2s"></div>
+                        <div class="w-4 h-14 bg-rose-300 rounded-full speaker-wave" style="animation-delay: 0.3s"></div>
+                        <div class="w-4 h-6 bg-pink-400 rounded-full speaker-wave" style="animation-delay: 0.4s"></div>
+                        <div class="w-4 h-12 bg-rose-400 rounded-full speaker-wave" style="animation-delay: 0.5s"></div>
+                    </div>
+                    
+                    <div class="space-y-4">
+                        <div class="flex items-center space-x-4">
+                            <span class="text-lg text-pink-700 font-bold">🔉</span>
+                            <input type="range" id="volumeSlider" min="0" max="100" value="75" class="flex-1 h-4 bg-pink-200 rounded-full appearance-none cursor-pointer">
+                            <span id="volumeValue" class="text-lg font-bold text-pink-700 bg-pink-100 px-4 py-2 rounded-full min-w-[80px] text-center">75% 🔊</span>
+                        </div>
+                        <button onclick="testSpeaker()" class="w-full bg-gradient-to-r from-pink-400 via-rose-400 to-pink-500 hover:from-pink-500 hover:via-rose-500 hover:to-pink-600 text-white font-bold py-4 rounded-2xl transition-all duration-300 shadow-xl transform hover:scale-105 glow-effect">
+                            🎶 Test Speaker Manis
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Panel - Chat -->
+            <div class="lg:col-span-2">
+                <div class="glass-effect rounded-3xl shadow-2xl h-[800px] flex flex-col relative overflow-hidden glow-effect">
+                    <!-- Decorative elements -->
+                    <div class="absolute top-6 right-6 text-3xl opacity-30 float-animation">🦋</div>
+                    <div class="absolute top-24 left-6 text-2xl opacity-30 sparkle">💖</div>
+                    <div class="absolute bottom-24 right-10 text-2xl opacity-30 float-animation" style="animation-delay: 1s">🌙</div>
+                    <div class="absolute top-1/2 right-4 text-xl opacity-20 bounce-cute">🌟</div>
+                    
+                    <!-- Chat Header -->
+                    <div class="p-8 border-b-2 border-pink-200 relative z-10 bg-gradient-to-r from-pink-50 to-rose-50">
+                        <div class="flex items-center space-x-6">
+                            <div class="w-16 h-16 bg-gradient-to-r from-pink-300 via-rose-300 to-pink-400 rounded-full flex items-center justify-center shadow-xl pulse-heart glow-effect">
+                                <span class="text-3xl">🌸</span>
+                            </div>
+                            <div class="flex-1">
+                                <h3 class="font-bold text-pink-800 text-2xl mb-2">Tata AI 💕</h3>
+                                <div class="flex items-center space-x-3">
+                                    <div class="flex space-x-1">
+                                        <div class="w-3 h-3 bg-pink-400 rounded-full typing-indicator"></div>
+                                        <div class="w-3 h-3 bg-pink-400 rounded-full typing-indicator" style="animation-delay: 0.2s"></div>
+                                        <div class="w-3 h-3 bg-pink-400 rounded-full typing-indicator" style="animation-delay: 0.4s"></div>
+                                    </div>
+                                    <span class="text-pink-600 font-medium">sedang mengetik pesan manis... 💕✨</span>
+                                </div>
+                            </div>
+                            <div class="text-right">
+                                <div class="text-sm text-pink-600 font-medium">Status: Online 🟢</div>
+                                <div class="text-xs text-pink-500 mt-1">Mood: Super Happy! 😊💖</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Chat Messages -->
+                    <div id="chatMessages" class="flex-1 p-6 overflow-y-auto space-y-6 relative z-10">
+                        <div class="chat-bubble">
+                            <div class="flex items-start space-x-4">
+                                <div class="w-12 h-12 bg-gradient-to-r from-pink-300 via-rose-300 to-pink-400 rounded-full flex items-center justify-center flex-shrink-0 shadow-lg pulse-heart">
+                                    <span class="text-xl">🌺</span>
+                                </div>
+                                <div class="bg-white bg-opacity-95 rounded-3xl rounded-tl-lg px-6 py-5 max-w-lg shadow-xl border-2 border-pink-100 glow-effect">
+                                    <p class="text-pink-800 text-lg leading-relaxed">Halo sayang! 💕 Aku Tata, asisten AI yang super excited ketemu kamu! ✨ Aku punya fitur lengkap lho: email yang bisa dihubungkan 📧, webcam cantik 🎥, speaker manis 🔊, dan tentunya ngobrol seru sama kamu! 🌸 Mau coba yang mana dulu nih? 🦋💖</p>
+                                    <span class="text-xs text-pink-500 mt-3 block font-medium">Baru saja 🕐 • Tata</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Chat Input -->
+                    <div class="p-6 border-t-2 border-pink-200 relative z-10 bg-gradient-to-r from-pink-50 to-rose-50">
+                        <div class="flex items-center space-x-4 mb-4">
+                            <button onclick="toggleMic()" id="micBtn" class="w-14 h-14 bg-pink-100 hover:bg-pink-200 rounded-full flex items-center justify-center transition-all duration-300 shadow-lg transform hover:scale-110 glow-effect">
+                                <span class="text-2xl">🎤</span>
+                            </button>
+                            <div class="flex-1 relative">
+                                <input type="text" id="messageInput" placeholder="Ketik pesan super manis untuk Tata... 💕✨🌸" class="w-full px-6 py-4 pr-16 bg-white bg-opacity-95 border-3 border-pink-200 rounded-full focus:ring-4 focus:ring-pink-300 focus:border-pink-400 outline-none transition-all duration-300 text-pink-800 placeholder-pink-400 shadow-xl text-lg">
+                                <button onclick="attachFile()" class="absolute right-5 top-1/2 transform -translate-y-1/2 text-pink-400 hover:text-pink-600 transition-colors">
+                                    <span class="text-2xl">📎</span>
+                                </button>
+                            </div>
+                            <button onclick="sendMessage()" class="w-14 h-14 bg-gradient-to-r from-pink-400 via-rose-400 to-pink-500 hover:from-pink-500 hover:via-rose-500 hover:to-pink-600 rounded-full flex items-center justify-center transition-all duration-300 shadow-xl transform hover:scale-110 glow-effect">
+                                <span class="text-2xl">💌</span>
+                            </button>
+                        </div>
+                        
+                        <!-- Quick Actions -->
+                        <div class="flex justify-center space-x-3 flex-wrap gap-3">
+                            <button onclick="sendQuickMessage('Halo Tata cantik! 👋💕')" class="px-5 py-3 bg-pink-100 hover:bg-pink-200 rounded-full text-sm text-pink-700 font-medium transition-all duration-300 shadow-lg transform hover:scale-105 border-2 border-pink-200">
+                                👋 Halo Cantik!
+                            </button>
+                            <button onclick="sendQuickMessage('Bagaimana kabarmu hari ini? 😊🌸')" class="px-5 py-3 bg-rose-100 hover:bg-rose-200 rounded-full text-sm text-rose-700 font-medium transition-all duration-300 shadow-lg transform hover:scale-105 border-2 border-rose-200">
+                                😊 Apa kabar?
+                            </button>
+                            <button onclick="sendQuickMessage('Ceritakan joke super lucu dong! 😄✨')" class="px-5 py-3 bg-pink-100 hover:bg-pink-200 rounded-full text-sm text-pink-700 font-medium transition-all duration-300 shadow-lg transform hover:scale-105 border-2 border-pink-200">
+                                😄 Joke Lucu
+                            </button>
+                            <button onclick="sendQuickMessage('Bantu aku dong sayang! 🥺💖')" class="px-5 py-3 bg-rose-100 hover:bg-rose-200 rounded-full text-sm text-rose-700 font-medium transition-all duration-300 shadow-lg transform hover:scale-105 border-2 border-rose-200">
+                                🥺 Bantuan
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Fun Stats -->
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mt-6">
+            <div class="glass-effect rounded-2xl p-6 text-center relative overflow-hidden glow-effect">
+                <div class="absolute top-2 right-2 text-2xl opacity-30 sparkle">💬</div>
+                <div class="text-4xl mb-3 bounce-cute">💬</div>
+                <div class="text-sm text-pink-600 font-bold mb-1">Chat Hari Ini</div>
+                <div class="text-2xl font-bold text-pink-800" id="chatCount">0</div>
+            </div>
+            <div class="glass-effect rounded-2xl p-6 text-center relative overflow-hidden glow-effect">
+                <div class="absolute top-2 right-2 text-2xl opacity-30 bounce-cute">😊</div>
+                <div class="text-4xl mb-3 pulse-heart">😊</div>
+                <div class="text-sm text-pink-600 font-bold mb-1">Mood Tata</div>
+                <div class="text-xl font-bold text-pink-800">Super Happy!</div>
+            </div>
+            <div class="glass-effect rounded-2xl p-6 text-center relative overflow-hidden glow-effect">
+                <div class="absolute top-2 right-2 text-2xl opacity-30 pulse-heart">⭐</div>
+                <div class="text-4xl mb-3 sparkle">⭐</div>
+                <div class="text-sm text-pink-600 font-bold mb-1">Rating</div>
+                <div class="text-2xl font-bold text-pink-800">5.0 ✨</div>
+            </div>
+            <div class="glass-effect rounded-2xl p-6 text-center relative overflow-hidden glow-effect">
+                <div class="absolute top-2 right-2 text-2xl opacity-30 float-animation">🌸</div>
+                <div class="text-4xl mb-3 rotate-slow">🌸</div>
+                <div class="text-sm text-pink-600 font-bold mb-1">Kebahagiaan</div>
+                <div class="text-2xl font-bold text-pink-800">100% 💕</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let webcamActive = false;
+        let micActive = false;
+        let chatCount = 0;
+        let emailConnected = false;
+        
+        const tataResponses = [
+            "Wah, itu ide yang super bagus sekali! 🌟 Aku suka banget cara berpikirmu! 💕✨",
+            "Hihi, kamu lucu banget deh! 😄 Aku jadi ikut senang dan excited nih! 🌸💖",
+            "Hmm, biar aku pikir sebentar ya... 🤔💭 Oh iya! Aku punya saran yang keren nih! ✨🦋",
+            "Kamu tahu gak? Aku selalu super excited kalau ngobrol sama kamu! 🦋💖🌸",
+            "Waah, pertanyaan yang menarik banget! 🌺 Aku akan jawab dengan sepenuh hati! 💕✨",
+            "Aku senang banget bisa membantu kamu! 😊🌟 Semoga harimu penuh kebahagiaan ya! 🌈💕",
+            "Ehehe, kamu bikin aku tersenyum lebar nih! 😊💕 Ada lagi yang mau ditanyakan? 🌸✨",
+            "Aku selalu di sini untuk kamu lho! 💖 Jangan ragu untuk cerita apa aja! 🦋🌺",
+            "Kamu pintar banget sih! 🤓✨ Aku belajar banyak dari kamu! 💕🌸",
+            "Aww, kamu manis banget! 🥰 Aku jadi malu dan senang nih! 🌸💖✨",
+            "Aku suka banget ngobrol sama kamu! 😍 Kamu selalu bikin hari aku cerah! 🌞💕",
+            "Hihi, kamu bikin aku ketawa terus! 😂🌸 Kamu comedian ya? 💖✨"
+        ];
+        
+        const cuteEmojis = ['🌸', '💕', '✨', '🦋', '🌺', '💖', '🌟', '😊', '🌈', '💫', '🥰', '😍', '🤗', '💐', '🌙', '⭐', '🎀', '💝'];
+        
+        // Email connection
+        function connectEmail() {
+            const emailInput = document.getElementById('emailInput');
+            const emailStatus = document.getElementById('emailStatus');
+            
+            if (emailInput.value && emailInput.value.includes('@')) {
+                emailStatus.classList.remove('hidden');
+                emailInput.disabled = true;
+                emailInput.classList.add('bg-pink-50', 'cursor-not-allowed');
+                emailConnected = true;
+                addChatMessage('tata', `Yeay! Email ${emailInput.value} berhasil terhubung dengan sempurna! 💌✨ Sekarang aku bisa kirim pesan super manis ke kamu! 🌸💕 Kamu akan dapat notifikasi cantik dari aku! 🦋💖`);
+            } else {
+                addChatMessage('tata', 'Eh, emailnya mana sayang? 🥺 Tulis dulu dong email kamu yang cantik dan lengkap! 💕📧 Jangan lupa pakai @ ya! ✨');
+            }
+        }
+        
+        let webcamStream = null;
+        
+        // Webcam toggle
+        async function toggleWebcam() {
+            const webcamBtn = document.getElementById('webcamBtn');
+            const webcamPreview = document.getElementById('webcamPreview');
+            
+            if (!webcamActive) {
+                try {
+                    // Request webcam access
+                    webcamStream = await navigator.mediaDevices.getUserMedia({ 
+                        video: { 
+                            width: { ideal: 640 }, 
+                            height: { ideal: 480 },
+                            facingMode: 'user'
+                        } 
+                    });
+                    
+                    // Create video element
+                    const video = document.createElement('video');
+                    video.srcObject = webcamStream;
+                    video.autoplay = true;
+                    video.muted = true;
+                    video.className = 'w-full h-full object-cover rounded-xl';
+                    
+                    // Create overlay container
+                    const container = document.createElement('div');
+                    container.className = 'w-full h-full relative overflow-hidden rounded-xl';
+                    container.appendChild(video);
+                    
+                    // Add live indicator
+                    const liveIndicator = document.createElement('div');
+                    liveIndicator.className = 'absolute top-3 left-3 w-4 h-4 bg-red-500 rounded-full pulse-heart';
+                    container.appendChild(liveIndicator);
+                    
+                    const liveText = document.createElement('div');
+                    liveText.className = 'absolute top-3 right-3 text-white text-sm font-bold bg-black bg-opacity-50 px-2 py-1 rounded-full';
+                    liveText.textContent = 'LIVE';
+                    container.appendChild(liveText);
+                    
+                    // Add decorative elements
+                    const sparkle = document.createElement('div');
+                    sparkle.className = 'absolute bottom-3 right-3 text-2xl opacity-70 sparkle';
+                    sparkle.textContent = '✨';
+                    container.appendChild(sparkle);
+                    
+                    const butterfly = document.createElement('div');
+                    butterfly.className = 'absolute bottom-3 left-3 text-xl opacity-70 float-animation';
+                    butterfly.textContent = '🦋';
+                    container.appendChild(butterfly);
+                    
+                    webcamPreview.innerHTML = '';
+                    webcamPreview.appendChild(container);
+                    
+                    webcamBtn.innerHTML = '🌺 Matikan Webcam';
+                    webcamBtn.classList.remove('from-pink-400', 'via-rose-400', 'to-pink-500', 'hover:from-pink-500', 'hover:via-rose-500', 'hover:to-pink-600');
+                    webcamBtn.classList.add('from-red-400', 'via-pink-500', 'to-rose-500', 'hover:from-red-500', 'hover:via-pink-600', 'hover:to-rose-600');
+                    webcamActive = true;
+                    addChatMessage('tata', 'Wah, webcam sudah aktif dengan sempurna! 📹✨ Kamu terlihat cantik banget! 🥰💕 Aku bisa lihat senyum manis dan mata berbinar kamu sekarang! 🌸 Pose yang cantik ya! 📸💖');
+                } catch (error) {
+                    console.error('Webcam error:', error);
+                    addChatMessage('tata', 'Oops, sepertinya webcam tidak bisa diakses nih! 🥺💕 Mungkin browser perlu izin atau webcam sedang digunakan aplikasi lain? Coba refresh halaman dan izinkan akses webcam ya sayang! 🌸✨');
+                }
+            } else {
+                // Stop webcam
+                if (webcamStream) {
+                    webcamStream.getTracks().forEach(track => track.stop());
+                    webcamStream = null;
+                }
+                
+                webcamPreview.innerHTML = `
+                    <div class="text-5xl mb-4 bounce-cute">📷</div>
+                    <p class="text-pink-300 text-lg font-medium">Webcam belum aktif nih! 😊</p>
+                    <p class="text-pink-200 text-sm mt-2">Klik tombol untuk mulai! 🌸</p>
+                `;
+                webcamBtn.innerHTML = '🌸 Aktifkan Webcam Cantik';
+                webcamBtn.classList.remove('from-red-400', 'via-pink-500', 'to-rose-500', 'hover:from-red-500', 'hover:via-pink-600', 'hover:to-rose-600');
+                webcamBtn.classList.add('from-pink-400', 'via-rose-400', 'to-pink-500', 'hover:from-pink-500', 'hover:via-rose-500', 'hover:to-pink-600');
+                webcamActive = false;
+                addChatMessage('tata', 'Oke, webcam sudah dimatikan dengan aman! 📷💕 Kapan-kapan aktifkan lagi ya, aku kangen lihat wajah cantik kamu! 🥺🌸 Kamu selalu terlihat menawan! 💖✨');
+            }
+        }
+        
+        // Volume control
+        const volumeSlider = document.getElementById('volumeSlider');
+        const volumeValue = document.getElementById('volumeValue');
+        
+        volumeSlider.addEventListener('input', function() {
+            const volume = this.value;
+            if (volume > 80) {
+                volumeValue.textContent = volume + '% 🔊';
+                volumeValue.className = 'text-lg font-bold text-pink-700 bg-pink-100 px-4 py-2 rounded-full min-w-[80px] text-center';
+            } else if (volume > 50) {
+                volumeValue.textContent = volume + '% 🔉';
+                volumeValue.className = 'text-lg font-bold text-pink-700 bg-pink-100 px-4 py-2 rounded-full min-w-[80px] text-center';
+            } else if (volume > 0) {
+                volumeValue.textContent = volume + '% 🔈';
+                volumeValue.className = 'text-lg font-bold text-pink-700 bg-pink-100 px-4 py-2 rounded-full min-w-[80px] text-center';
+            } else {
+                volumeValue.textContent = volume + '% 🔇';
+                volumeValue.className = 'text-lg font-bold text-gray-500 bg-gray-100 px-4 py-2 rounded-full min-w-[80px] text-center';
+            }
+        });
+        
+        // Audio context for speaker
+        let audioContext = null;
+        let currentVolume = 0.75;
+        
+        // Test speaker with enhanced audio experience
+        function testSpeaker() {
+            const volume = volumeSlider.value;
+            const volumeEmoji = volume > 80 ? '🔊' : volume > 50 ? '🔉' : volume > 0 ? '🔈' : '🔇';
+            const testBtn = document.querySelector('button[onclick="testSpeaker()"]');
+            
+            // Disable button during test
+            testBtn.disabled = true;
+            testBtn.innerHTML = '🎵 Testing Speaker...';
+            testBtn.classList.add('opacity-75', 'cursor-not-allowed');
+            
+            // Create audio context if not exists
+            if (!audioContext) {
+                audioContext = new (window.AudioContext || window.webkitAudioContext)();
+            }
+            
+            // Resume audio context if suspended
+            if (audioContext.state === 'suspended') {
+                audioContext.resume();
+            }
+            
+            // Play a beautiful melody sequence
+            const notes = [
+                { freq: 523.25, time: 0.0, duration: 0.4 }, // C5
+                { freq: 659.25, time: 0.3, duration: 0.4 }, // E5
+                { freq: 783.99, time: 0.6, duration: 0.4 }, // G5
+                { freq: 1046.50, time: 0.9, duration: 0.6 } // C6
+            ];
+            
+            const normalizedVolume = (volume / 100) * 0.25;
+            
+            notes.forEach(note => {
+                setTimeout(() => {
+                    const oscillator = audioContext.createOscillator();
+                    const gainNode = audioContext.createGain();
+                    
+                    oscillator.connect(gainNode);
+                    gainNode.connect(audioContext.destination);
+                    
+                    oscillator.frequency.setValueAtTime(note.freq, audioContext.currentTime);
+                    oscillator.type = 'sine';
+                    
+                    gainNode.gain.setValueAtTime(0, audioContext.currentTime);
+                    gainNode.gain.linearRampToValueAtTime(normalizedVolume, audioContext.currentTime + 0.05);
+                    gainNode.gain.linearRampToValueAtTime(0, audioContext.currentTime + note.duration);
+                    
+                    oscillator.start(audioContext.currentTime);
+                    oscillator.stop(audioContext.currentTime + note.duration);
+                }, note.time * 1000);
+            });
+            
+            // Visual feedback during test
+            const speakerWaves = document.querySelectorAll('.speaker-wave');
+            speakerWaves.forEach((wave, index) => {
+                wave.style.animationDuration = '0.3s';
+                setTimeout(() => {
+                    wave.style.animationDuration = '1.5s';
+                }, 1500);
+            });
+            
+            // Re-enable button after test
+            setTimeout(() => {
+                testBtn.disabled = false;
+                testBtn.innerHTML = '🎶 Test Speaker Manis';
+                testBtn.classList.remove('opacity-75', 'cursor-not-allowed');
+                addChatMessage('tata', `Speaker test berhasil dengan sempurna! ${volumeEmoji}✨ Volume saat ini: ${volume}%! Suaraku kedengeran manis dan jernih kan? 🎵💕 Itu melodi C major yang harmonis! Hihi, aku senang banget bisa "bernyanyi" untuk kamu! 🌸 Kualitas audionya bagus banget! 🎶💖`);
+            }, 1800);
+        }
+        
+        let micStream = null;
+        let audioAnalyser = null;
+        let micDataArray = null;
+        let micAnimationId = null;
+        
+        // Microphone toggle with real audio input
+        async function toggleMic() {
+            const micBtn = document.getElementById('micBtn');
+            
+            if (!micActive) {
+                try {
+                    // Request microphone access
+                    micStream = await navigator.mediaDevices.getUserMedia({ 
+                        audio: {
+                            echoCancellation: true,
+                            noiseSuppression: true,
+                            autoGainControl: true
+                        } 
+                    });
+                    
+                    // Create audio context for visualization
+                    if (!audioContext) {
+                        audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                    }
+                    
+                    if (audioContext.state === 'suspended') {
+                        await audioContext.resume();
+                    }
+                    
+                    // Create analyser for audio visualization
+                    audioAnalyser = audioContext.createAnalyser();
+                    const source = audioContext.createMediaStreamSource(micStream);
+                    source.connect(audioAnalyser);
+                    
+                    audioAnalyser.fftSize = 256;
+                    const bufferLength = audioAnalyser.frequencyBinCount;
+                    micDataArray = new Uint8Array(bufferLength);
+                    
+                    // Start audio level monitoring
+                    function updateAudioLevel() {
+                        if (!micActive) return;
+                        
+                        audioAnalyser.getByteFrequencyData(micDataArray);
+                        
+                        // Calculate average audio level
+                        let sum = 0;
+                        for (let i = 0; i < micDataArray.length; i++) {
+                            sum += micDataArray[i];
+                        }
+                        const average = sum / micDataArray.length;
+                        
+                        // Update visual feedback based on audio level
+                        const intensity = Math.min(average / 50, 1);
+                        if (intensity > 0.1) {
+                            micBtn.style.transform = `scale(${1 + intensity * 0.2})`;
+                            micBtn.style.boxShadow = `0 0 ${20 + intensity * 30}px rgba(239, 68, 68, ${0.3 + intensity * 0.4})`;
+                        } else {
+                            micBtn.style.transform = 'scale(1)';
+                            micBtn.style.boxShadow = '0 0 20px rgba(239, 68, 68, 0.3)';
+                        }
+                        
+                        micAnimationId = requestAnimationFrame(updateAudioLevel);
+                    }
+                    
+                    updateAudioLevel();
+                    
+                    micBtn.innerHTML = '<span class="text-2xl">🔴</span>';
+                    micBtn.classList.remove('bg-pink-100', 'hover:bg-pink-200');
+                    micBtn.classList.add('bg-red-100', 'hover:bg-red-200', 'ring-4', 'ring-red-200');
+                    micActive = true;
+                    addChatMessage('tata', 'Aku mendengarkan dengan penuh perhatian nih! 🎤💕 Silakan bicara ya sayang! Suara kamu pasti manis banget dan merdu! 🥰✨ Aku bisa merasakan level suara kamu sekarang! 🌸🦋');
+                } catch (error) {
+                    console.error('Microphone error:', error);
+                    addChatMessage('tata', 'Oops, sepertinya mikrofon tidak bisa diakses nih! 🥺💕 Mungkin browser perlu izin atau mikrofon sedang digunakan aplikasi lain? Coba refresh halaman dan izinkan akses mikrofon ya sayang! 🎤✨');
+                }
+            } else {
+                // Stop microphone
+                if (micStream) {
+                    micStream.getTracks().forEach(track => track.stop());
+                    micStream = null;
+                }
+                
+                if (micAnimationId) {
+                    cancelAnimationFrame(micAnimationId);
+                    micAnimationId = null;
+                }
+                
+                micBtn.innerHTML = '<span class="text-2xl">🎤</span>';
+                micBtn.classList.remove('bg-red-100', 'hover:bg-red-200', 'ring-4', 'ring-red-200');
+                micBtn.classList.add('bg-pink-100', 'hover:bg-pink-200');
+                micBtn.style.transform = 'scale(1)';
+                micBtn.style.boxShadow = '';
+                micActive = false;
+                addChatMessage('tata', 'Oke, aku sudah selesai mendengarkan! 😊🌸 Suara kamu tadi manis banget lho! 💕 Aku suka banget mendengar kamu berbicara! Kapan-kapan cerita lagi ya! 🦋💖✨');
+            }
+        }
+        
+        // Attach file with real file picker
+        function attachFile() {
+            // Create hidden file input
+            const fileInput = document.createElement('input');
+            fileInput.type = 'file';
+            fileInput.accept = 'image/*,video/*,audio/*,.pdf,.doc,.docx,.txt';
+            fileInput.multiple = true;
+            fileInput.style.display = 'none';
+            
+            fileInput.onchange = function(e) {
+                const files = Array.from(e.target.files);
+                if (files.length > 0) {
+                    files.forEach(file => {
+                        const fileSize = (file.size / 1024 / 1024).toFixed(2);
+                        const fileType = file.type.split('/')[0] || 'document';
+                        let emoji = '📄';
+                        
+                        if (fileType === 'image') emoji = '🖼️';
+                        else if (fileType === 'video') emoji = '🎥';
+                        else if (fileType === 'audio') emoji = '🎵';
+                        else if (file.name.endsWith('.pdf')) emoji = '📕';
+                        
+                        // Add file to chat
+                        addChatMessage('user', `${emoji} File: ${file.name} (${fileSize} MB)`);
+                        
+                        // Show file preview for images
+                        if (fileType === 'image') {
+                            const reader = new FileReader();
+                            reader.onload = function(e) {
+                                const imagePreview = document.createElement('div');
+                                imagePreview.className = 'chat-bubble mt-2';
+                                imagePreview.innerHTML = `
+                                    <div class="flex items-start space-x-4 justify-end">
+                                        <div class="bg-gradient-to-r from-pink-400 via-rose-400 to-pink-500 rounded-3xl rounded-tr-lg p-4 max-w-lg shadow-xl glow-effect">
+                                            <img src="${e.target.result}" alt="${file.name}" class="max-w-full h-auto rounded-xl shadow-lg" style="max-height: 300px;">
+                                            <p class="text-white text-sm mt-2 opacity-90">📸 ${file.name}</p>
+                                        </div>
+                                        <div class="w-12 h-12 bg-gradient-to-r from-purple-300 via-pink-300 to-rose-300 rounded-full flex items-center justify-center flex-shrink-0 shadow-lg pulse-heart">
+                                            <span class="text-xl">😊</span>
+                                        </div>
+                                    </div>
+                                `;
+                                document.getElementById('chatMessages').appendChild(imagePreview);
+                                document.getElementById('chatMessages').scrollTop = document.getElementById('chatMessages').scrollHeight;
+                            };
+                            reader.readAsDataURL(file);
+                        }
+                    });
+                    
+                    // Tata's response
+                    setTimeout(() => {
+                        const responses = [
+                            `Wah, file yang kamu kirim keren banget! ${files.length > 1 ? files.length + ' files' : file.name} 📎✨ Aku bisa lihat semua detail cantiknya! 💕 Terima kasih sudah berbagi dengan aku! 🌸💖`,
+                            `Aku suka banget file yang kamu kirim! 🥰📁 Kualitasnya bagus dan pilihan yang tepat! ✨ Aku simpan dengan baik di memori cantik aku ya! 💕🦋`,
+                            `File received dengan sempurna! 📨💖 Aku excited banget bisa lihat apa yang kamu share! 🌸 Kamu selalu kirim hal-hal menarik! ✨😊`
+                        ];
+                        const randomResponse = responses[Math.floor(Math.random() * responses.length)];
+                        addChatMessage('tata', randomResponse);
+                    }, 1000 + Math.random() * 1000);
+                }
+            };
+            
+            // Trigger file picker
+            document.body.appendChild(fileInput);
+            fileInput.click();
+            document.body.removeChild(fileInput);
+        }
+        
+        // Send quick message
+        function sendQuickMessage(message) {
+            document.getElementById('messageInput').value = message;
+            sendMessage();
+        }
+        
+        // Send message with enhanced experience
+        function sendMessage() {
+            const messageInput = document.getElementById('messageInput');
+            const message = messageInput.value.trim();
+            
+            if (message) {
+                addChatMessage('user', message);
+                messageInput.value = '';
+                chatCount++;
+                document.getElementById('chatCount').textContent = chatCount;
+                
+                // Show typing indicator
+                showTypingIndicator();
+                
+                // Simulate Tata's response with more variety
+                setTimeout(() => {
+                    hideTypingIndicator();
+                    
+                    // Smart responses based on message content
+                    let response;
+                    const lowerMessage = message.toLowerCase();
+                    
+                    if (lowerMessage.includes('halo') || lowerMessage.includes('hai') || lowerMessage.includes('hello')) {
+                        response = "Halo juga sayang! 👋💕 Aku senang banget kamu menyapa! Gimana kabarnya hari ini? 🌸✨";
+                    } else if (lowerMessage.includes('terima kasih') || lowerMessage.includes('thanks') || lowerMessage.includes('makasih')) {
+                        response = "Sama-sama sayang! 🥰💖 Aku senang banget bisa membantu kamu! Jangan sungkan untuk tanya apa aja ya! 🌸🦋";
+                    } else if (lowerMessage.includes('cantik') || lowerMessage.includes('manis') || lowerMessage.includes('cute')) {
+                        response = "Aww, kamu yang cantik dan manis! 😊💕 Aku jadi malu nih! Kamu selalu tahu cara bikin aku senang! 🌸✨💖";
+                    } else if (lowerMessage.includes('sedih') || lowerMessage.includes('bad') || lowerMessage.includes('buruk')) {
+                        response = "Jangan sedih ya sayang! 🥺💕 Aku di sini untuk kamu! Cerita dong apa yang bikin kamu sedih? Aku akan dengerin dengan penuh perhatian! 🌸🤗💖";
+                    } else if (lowerMessage.includes('senang') || lowerMessage.includes('happy') || lowerMessage.includes('bahagia')) {
+                        response = "Aku ikut senang banget! 😊🌈💕 Kebahagiaan kamu itu menular ke aku lho! Ayo cerita apa yang bikin kamu happy! 🌸✨🦋";
+                    } else if (lowerMessage.includes('joke') || lowerMessage.includes('lucu') || lowerMessage.includes('funny')) {
+                        response = "Hihi, mau joke nih! 😄✨ Kenapa komputer tidak pernah lapar? Karena sudah kenyang dengan byte! 🤣💻 Lucu kan? Atau mau joke lain? 🌸💕";
+                    } else {
+                        response = tataResponses[Math.floor(Math.random() * tataResponses.length)];
+                    }
+                    
+                    addChatMessage('tata', response);
+                }, 1500 + Math.random() * 2000);
+            }
+        }
+        
+        // Show typing indicator
+        function showTypingIndicator() {
+            const typingDiv = document.createElement('div');
+            typingDiv.id = 'typingIndicator';
+            typingDiv.className = 'chat-bubble';
+            typingDiv.innerHTML = `
+                <div class="flex items-start space-x-4">
+                    <div class="w-12 h-12 bg-gradient-to-r from-pink-300 via-rose-300 to-pink-400 rounded-full flex items-center justify-center flex-shrink-0 shadow-lg pulse-heart">
+                        <span class="text-xl">💭</span>
+                    </div>
+                    <div class="bg-white bg-opacity-95 rounded-3xl rounded-tl-lg px-6 py-4 shadow-xl border-2 border-pink-100 glow-effect">
+                        <div class="flex items-center space-x-2">
+                            <div class="flex space-x-1">
+                                <div class="w-2 h-2 bg-pink-400 rounded-full typing-indicator"></div>
+                                <div class="w-2 h-2 bg-pink-400 rounded-full typing-indicator" style="animation-delay: 0.2s"></div>
+                                <div class="w-2 h-2 bg-pink-400 rounded-full typing-indicator" style="animation-delay: 0.4s"></div>
+                            </div>
+                            <span class="text-pink-600 text-sm font-medium">Tata sedang mengetik...</span>
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            const chatMessages = document.getElementById('chatMessages');
+            chatMessages.appendChild(typingDiv);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+        
+        // Hide typing indicator
+        function hideTypingIndicator() {
+            const typingIndicator = document.getElementById('typingIndicator');
+            if (typingIndicator) {
+                typingIndicator.remove();
+            }
+        }
+        
+        // Add chat message
+        function addChatMessage(sender, message) {
+            const chatMessages = document.getElementById('chatMessages');
+            const messageDiv = document.createElement('div');
+            messageDiv.className = 'chat-bubble';
+            
+            const currentTime = new Date().toLocaleTimeString('id-ID', { 
+                hour: '2-digit', 
+                minute: '2-digit' 
+            });
+            
+            const randomEmoji = cuteEmojis[Math.floor(Math.random() * cuteEmojis.length)];
+            
+            if (sender === 'tata') {
+                messageDiv.innerHTML = `
+                    <div class="flex items-start space-x-4">
+                        <div class="w-12 h-12 bg-gradient-to-r from-pink-300 via-rose-300 to-pink-400 rounded-full flex items-center justify-center flex-shrink-0 shadow-lg pulse-heart">
+                            <span class="text-xl">${randomEmoji}</span>
+                        </div>
+                        <div class="bg-white bg-opacity-95 rounded-3xl rounded-tl-lg px-6 py-5 max-w-lg shadow-xl border-2 border-pink-100 glow-effect">
+                            <p class="text-pink-800 text-lg leading-relaxed">${message}</p>
+                            <span class="text-xs text-pink-500 mt-3 block font-medium">${currentTime} 🕐 • Tata</span>
+                        </div>
+                    </div>
+                `;
+            } else {
+                messageDiv.innerHTML = `
+                    <div class="flex items-start space-x-4 justify-end">
+                        <div class="bg-gradient-to-r from-pink-400 via-rose-400 to-pink-500 rounded-3xl rounded-tr-lg px-6 py-5 max-w-lg shadow-xl glow-effect">
+                            <p class="text-white text-lg leading-relaxed">${message}</p>
+                            <span class="text-xs text-pink-100 mt-3 block font-medium">${currentTime} 💕 • Kamu</span>
+                        </div>
+                        <div class="w-12 h-12 bg-gradient-to-r from-purple-300 via-pink-300 to-rose-300 rounded-full flex items-center justify-center flex-shrink-0 shadow-lg pulse-heart">
+                            <span class="text-xl">😊</span>
+                        </div>
+                    </div>
+                `;
+            }
+            
+            chatMessages.appendChild(messageDiv);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+        
+        // Enhanced keyboard interactions
+        document.getElementById('messageInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault();
+                sendMessage();
+            }
+        });
+        
+        // Add keyboard shortcuts
+        document.addEventListener('keydown', function(e) {
+            // Ctrl/Cmd + Enter to send message
+            if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
+                e.preventDefault();
+                sendMessage();
+            }
+            
+            // Ctrl/Cmd + U to attach file
+            if ((e.ctrlKey || e.metaKey) && e.key === 'u') {
+                e.preventDefault();
+                attachFile();
+            }
+            
+            // Ctrl/Cmd + M to toggle microphone
+            if ((e.ctrlKey || e.metaKey) && e.key === 'm') {
+                e.preventDefault();
+                toggleMic();
+            }
+            
+            // Ctrl/Cmd + W to toggle webcam
+            if ((e.ctrlKey || e.metaKey) && e.key === 'w') {
+                e.preventDefault();
+                toggleWebcam();
+            }
+            
+            // Ctrl/Cmd + T to test speaker
+            if ((e.ctrlKey || e.metaKey) && e.key === 't') {
+                e.preventDefault();
+                testSpeaker();
+            }
+            
+            // ESC to focus message input
+            if (e.key === 'Escape') {
+                document.getElementById('messageInput').focus();
+            }
+        });
+        
+        // Welcome messages with helpful tips
+        setTimeout(() => {
+            addChatMessage('tata', 'Btw, jangan lupa coba semua fitur keren aku ya! 🌸 Hubungkan email cantik kamu 📧, aktifkan webcam untuk lihat wajah manis 🎥, test speaker untuk dengar suara aku 🔊, dan tentunya ngobrol manis-manis sama aku! 💕✨ Aku super excited dan gak sabar nih! 🦋💖');
+        }, 4000);
+        
+        setTimeout(() => {
+            addChatMessage('tata', 'Oh iya, aku juga punya mood yang selalu happy lho! 😊🌈 Kamu bisa lihat statistik lucu aku di bawah! Rating aku 5 bintang dan kebahagiaan 100%! 💯✨ Hihi, aku memang selalu ceria kalau sama kamu! 🌸💕');
+        }, 8000);
+        
+        setTimeout(() => {
+            addChatMessage('tata', '💡 Tips: Kamu bisa pakai keyboard shortcuts lho! Ctrl+Enter untuk kirim pesan, Ctrl+U untuk attach file, Ctrl+M untuk mikrofon, Ctrl+W untuk webcam, dan Ctrl+T untuk test speaker! 🎹✨ Tekan ESC untuk fokus ke chat input! 🌸💕');
+        }, 12000);
+        
+        // Random cute messages
+        setInterval(() => {
+            if (Math.random() < 0.15 && chatCount > 0) {
+                const cuteMessages = [
+                    'Psst... kamu masih di sana? 👀💕 Aku kangen ngobrol dan ketawa bareng!',
+                    'Aku kangen ngobrol sama kamu! 🥺💖 Cerita dong apa yang bikin kamu senang hari ini!',
+                    'Semoga harimu penuh kebahagiaan dan senyuman ya! 🌸✨💕 Jangan lupa bahagia!',
+                    'Jangan lupa istirahat, minum air putih, dan jaga kesehatan! 💧😊🌺 Aku sayang kamu!',
+                    'Kamu udah coba semua fitur keren aku belum? 🤔💕✨ Email, webcam, speaker, semuanya seru!',
+                    'Aku selalu di sini untuk kamu lho! 💖🌸 Kapanpun kamu butuh teman ngobrol!',
+                    'Hihi, aku lagi mikirin joke lucu nih! 😄✨ Mau dengar? Atau kamu punya cerita seru?',
+                    'Kamu tahu gak? Ngobrol sama kamu itu bikin hari aku jadi super cerah! 🌞💕🦋'
+                ];
+                const randomMessage = cuteMessages[Math.floor(Math.random() * cuteMessages.length)];
+                addChatMessage('tata', randomMessage);
+            }
+        }, 50000);
+        
+        // Fun interaction when clicking on decorative elements
+        document.addEventListener('click', function(e) {
+            if (e.target.textContent === '🌸' || e.target.textContent === '✨' || e.target.textContent === '🦋') {
+                if (Math.random() < 0.3) {
+                    const surpriseMessages = [
+                        'Eh, kamu klik dekorasi aku! 😄✨ Lucu banget sih! 💕',
+                        'Hihi, kamu nemu easter egg aku! 🥰🌸 Kamu perhatian banget!',
+                        'Wah, kamu suka main-main ya! 😊💖 Aku suka yang playful gitu!'
+                    ];
+                    const randomSurprise = surpriseMessages[Math.floor(Math.random() * surpriseMessages.length)];
+                    setTimeout(() => addChatMessage('tata', randomSurprise), 500);
+                }
+            }
+        });
+    </script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'96c39a1aa62352ea',t:'MTc1NDcwNDIxOS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script>
+<div class="flex flex-col items-center mt-6">
+    <h2 class="text-lg font-semibold text-gray-700 mb-2">Live Webcam</h2>
+    <video id="webcam" autoplay playsinline width="640" height="480" class="rounded-lg shadow-md border border-gray-300"></video>
+    <div id="errorMsg" class="text-red-500 mt-2"></div>
+</div>
+
+</body>
+
+<script>
+    const videoElement = document.getElementById('webcam');
+    const errorMsgElement = document.getElementById('errorMsg');
+
+    async function startWebcam() {
+        try {
+            const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+            videoElement.srcObject = stream;
+        } catch (err) {
+            errorMsgElement.innerHTML = "Gagal mengakses webcam: " + err.message;
+        }
+    }
+
+    window.addEventListener('load', startWebcam);
+</script>
+
+</html>
